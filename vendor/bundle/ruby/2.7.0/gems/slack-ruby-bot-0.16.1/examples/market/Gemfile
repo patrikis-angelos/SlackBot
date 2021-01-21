@@ -1,6 +1,0 @@
-# frozen_string_literal: true
-
-source 'http://rubygems.org'
-gem 'faye-websocket'
-gem 'iex-ruby-client'
-gem 'slack-ruby-bot'
