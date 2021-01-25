@@ -54,10 +54,10 @@ class Commands < SlackRubyBot::Commands::Base
     city = data.text =~ /@/ ? data.text.split(' ', 3)[-1] : data.text.split(' ', 2)[-1]
     weather = client.find_weather(city)
     weather_text = if weather
-                     "Detailed Report for #{weather[:name]}" +
-                     "\nLongitude: #{weather[:lon]}, Latitude: #{weather[:lat]}" +
-                     "\nThe temperature is #{weather[:temp]}C with #{weather[:desc]}" +
-                     "\nHumidity: #{weather[:humidity]}%, Wind speed: #{weather[:speed]}"
+                     "Detailed Report for #{weather[:name]}" <<
+                       "\nLongitude: #{weather[:lon]}, Latitude: #{weather[:lat]}" <<
+                       "\nThe temperature is #{weather[:temp]}C with #{weather[:desc]}" <<
+                       "\nHumidity: #{weather[:humidity]}%, Wind speed: #{weather[:speed]}"
                    else
                      "Sorry I could't find \"#{city}\""
                    end
@@ -78,8 +78,8 @@ class PatrickBot < SlackRubyBot::Bot
 
     command :detailed do
       title 'Detailed'
-      desc "A more detailed weather report for the city you specified" + 
-      "that includes wind speed, humidity and geographical position"
+      desc 'A more detailed weather report for the city you specified' <<
+           'that includes wind speed, humidity and geographical position'
     end
   end
 end
