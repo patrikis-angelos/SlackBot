@@ -27,7 +27,7 @@ module SlackRubyBot
 
     def send_query(action, params)
       action.query = URI.encode_www_form(params)
-      response = Net::HTTP.get_response(action)
+      Net::HTTP.get_response(action)
     end
   end
 end
@@ -54,10 +54,10 @@ class Commands < SlackRubyBot::Commands::Base
     city = data.text =~ /@/ ? data.text.split(' ', 3)[-1] : data.text.split(' ', 2)[-1]
     weather = client.find_weather(city)
     weather_text = if weather
-                     "Detailed Report for #{weather[:name]}
-                     Longitude: #{weather[:lon]}, Latitude: #{weather[:lat]}
-                     The temperature is #{weather[:temp]}C with #{weather[:desc]}
-                     Humidity: #{weather[:humidity]}%, Wind speed: #{weather[:speed]}"
+                     "Detailed Report for #{weather[:name]}" +
+                     "\nLongitude: #{weather[:lon]}, Latitude: #{weather[:lat]}" +
+                     "\nThe temperature is #{weather[:temp]}C with #{weather[:desc]}" +
+                     "\nHumidity: #{weather[:humidity]}%, Wind speed: #{weather[:speed]}"
                    else
                      "Sorry I could't find \"#{city}\""
                    end
@@ -72,14 +72,14 @@ class PatrickBot < SlackRubyBot::Bot
     desc 'This bot will report the weather in any city'
 
     command :weather do
-      title 'Weather <your_city>'
+      title 'Weather'
       desc 'Reports the weather in the city you specified'
     end
 
     command :detailed do
-      title 'Detailed <your_city>'
-      desc "A more detailed weather report for the city you specified
-      that includes wind speed, humidity and geographical position"
+      title 'Detailed'
+      desc "A more detailed weather report for the city you specified" + 
+      "that includes wind speed, humidity and geographical position"
     end
   end
 end
