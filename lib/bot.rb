@@ -1,4 +1,4 @@
-class PatrickBot < SlackRubyBot::Bot
+class WeatherBot < SlackRubyBot::Bot
   help do
     title 'Weather Bot'
     desc 'This bot will report the weather in any city'
