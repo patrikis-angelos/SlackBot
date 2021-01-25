@@ -1,3 +1,7 @@
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+
 name: Linters
 
 on: pull_request
