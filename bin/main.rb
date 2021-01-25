@@ -5,3 +5,5 @@ require 'slack-ruby-bot'
 Dotenv.load
 
 require_relative '../lib/bot.rb'
+
+PatrickBot.run
