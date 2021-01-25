@@ -2,6 +2,10 @@ name: Linters
 
 on: pull_request
 
+AllCops:
+  Exclude:
+    - '../../vendor/**/*'
+
 jobs:
   rubocop:
     name: Rubocop
