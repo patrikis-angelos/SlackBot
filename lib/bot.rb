@@ -11,7 +11,7 @@ module SlackRubyBot
       weather_body = JSON.parse(weather_body.body)
       response_code = weather_body['cod']
       if response_code != 200
-        false
+        weather = false
       else
         weather = {
           lon: weather_body['coord']['lon'],
@@ -23,6 +23,7 @@ module SlackRubyBot
           speed: weather_body['wind']['speed']
         }
       end
+      weather
     end
 
     def send_query(action, params)
@@ -45,21 +46,22 @@ class Commands < SlackRubyBot::Commands::Base
     else
       weather_text = "Sorry I could't find \"#{city}\""
     end
-    client.take_action('chat.postMessage', {token: ENV['SLACK_API_TOKEN'], channel: data.channel, text: weather_text, as_user: true})
+    client.take_action('chat.postMessage', { token: ENV['SLACK_API_TOKEN'], channel: data.channel, text: weather_text, as_user: true })
   end
 
   command "detailed" do |client, data, _match|
     city = data.text =~ /@/ ? data.text.split(' ', 3)[-1] : data.text.split(' ', 2)[-1]
     weather = client.find_weather(city)
-    if weather
-      weather_text = "Detailed Report for #{weather[:name]}
+    weather_text = if weather
+      "Detailed Report for #{weather[:name]}
       Longitude: #{weather[:lon]}, Latitude: #{weather[:lat]}
       The temperature is #{weather[:temp]}C with #{weather[:desc]}
       Humidity: #{weather[:humidity]}%, Wind speed: #{weather[:speed]}"
     else
-      weather_text = "Sorry I could't find \"#{city}\""
+      "Sorry I could't find \"#{city}\""
     end
-    client.take_action('chat.postMessage', {token: ENV['SLACK_API_TOKEN'], channel: data.channel, text: weather_text, as_user: true})
+    params = { token: ENV['SLACK_API_TOKEN'], channel: data.channel, text: weather_text, as_user: true }
+    client.take_action('chat.postMessage', params)
   end
 end
 
@@ -75,7 +77,8 @@ class PatrickBot < SlackRubyBot::Bot
 
     command :detailed do
       title 'Detailed <your_city>'
-      desc 'A more detailed weather report for the city you specified that includes wind speed, humidity and geographical position'
+      desc "A more detailed weather report for the city you specified
+      that includes wind speed, humidity and geographical position"
     end
   end
 end
