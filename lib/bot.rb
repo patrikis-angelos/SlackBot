@@ -1,19 +1,19 @@
 module SlackRubyBot
   class Client < Slack::RealTime::Client
-    def take_action (action, params)
+    def take_action(action, params)
       action = URI "https://slack.com/api/#{action}"
       send_query(action, params)
     end
 
     def find_weather(city)
       action = URI 'http://api.openweathermap.org/data/2.5/weather'
-      weather_body = send_query(action, {q: city, appid: ENV['WEATHER_TOKEN']})
+      weather_body = send_query(action, { q: city, appid: ENV['WEATHER_TOKEN'] })
       weather_body = JSON.parse(weather_body.body)
       response_code = weather_body['cod']
       if response_code != 200
-        weather = false
+        false
       else
-        weather = {
+        {
           lon: weather_body['coord']['lon'],
           lat: weather_body['coord']['lat'],
           desc: weather_body['weather'][0]['description'],
@@ -23,7 +23,6 @@ module SlackRubyBot
           speed: weather_body['wind']['speed']
         }
       end
-      weather
     end
 
     def send_query(action, params)
@@ -35,31 +34,33 @@ end
 
 class Commands < SlackRubyBot::Commands::Base
   command 'hi' do |client, data, _match|
-    client.take_action('chat.postMessage', {token: ENV['SLACK_API_TOKEN'], channel: data.channel, text:"Hello", as_user: true})
+    client.take_action('chat.postMessage',
+                       { token: ENV['SLACK_API_TOKEN'], channel: data.channel, text: 'Hello', as_user: true })
   end
 
-  command "weather" do |client, data, _match|
-    city = data.text =~ /@/ ? data.text.split(' ', 3)[-1] : data.text.split(' ', 2)[-1]
-    weather = client.find_weather(city)
-    if weather
-      weather_text = "the temperature in #{weather[:name]} is #{weather[:temp]} C with #{weather[:desc]}"
-    else
-      weather_text = "Sorry I could't find \"#{city}\""
-    end
-    client.take_action('chat.postMessage', { token: ENV['SLACK_API_TOKEN'], channel: data.channel, text: weather_text, as_user: true })
-  end
-
-  command "detailed" do |client, data, _match|
+  command 'weather' do |client, data, _match|
     city = data.text =~ /@/ ? data.text.split(' ', 3)[-1] : data.text.split(' ', 2)[-1]
     weather = client.find_weather(city)
     weather_text = if weather
-      "Detailed Report for #{weather[:name]}
-      Longitude: #{weather[:lon]}, Latitude: #{weather[:lat]}
-      The temperature is #{weather[:temp]}C with #{weather[:desc]}
-      Humidity: #{weather[:humidity]}%, Wind speed: #{weather[:speed]}"
-    else
-      "Sorry I could't find \"#{city}\""
-    end
+                     "the temperature in #{weather[:name]} is #{weather[:temp]} C with #{weather[:desc]}"
+                   else
+                     "Sorry I could't find \"#{city}\""
+                   end
+    client.take_action('chat.postMessage',
+                       { token: ENV['SLACK_API_TOKEN'], channel: data.channel, text: weather_text, as_user: true })
+  end
+
+  command 'detailed' do |client, data, _match|
+    city = data.text =~ /@/ ? data.text.split(' ', 3)[-1] : data.text.split(' ', 2)[-1]
+    weather = client.find_weather(city)
+    weather_text = if weather
+                     "Detailed Report for #{weather[:name]}
+                     Longitude: #{weather[:lon]}, Latitude: #{weather[:lat]}
+                     The temperature is #{weather[:temp]}C with #{weather[:desc]}
+                     Humidity: #{weather[:humidity]}%, Wind speed: #{weather[:speed]}"
+                   else
+                     "Sorry I could't find \"#{city}\""
+                   end
     params = { token: ENV['SLACK_API_TOKEN'], channel: data.channel, text: weather_text, as_user: true }
     client.take_action('chat.postMessage', params)
   end
