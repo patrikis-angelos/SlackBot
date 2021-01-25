@@ -2,11 +2,10 @@ name: Linters
 
 on: pull_request
 
-AllCops:
-  Exclude:
-    - '../../vendor/**/*'
-
 jobs:
+  AllCops:
+    Exclude:
+      - '../../vendor/**/*'
   rubocop:
     name: Rubocop
     runs-on: ubuntu-18.04
