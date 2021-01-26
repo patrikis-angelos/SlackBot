@@ -6,9 +6,9 @@ class Commands < SlackRubyBot::Commands::Base
 
   command 'weather' do |client, data, _match|
     city = data.text =~ /@/ ? data.text.split(' ', 3)[-1] : data.text.split(' ', 2)[-1]
-    weather = client.find_weather(city)
-    weather_text = if weather
-                     "the temperature in #{weather[:name]} is #{weather[:temp]} C with #{weather[:desc]}"
+    client.find_weather(city)
+    weather_text = if client.weather
+                     "the temperature in #{client.weather[:name]} is #{client.weather[:temp]} C with #{client.weather[:desc]}"
                    else
                      "Sorry I could't find \"#{city}\""
                    end
@@ -18,12 +18,12 @@ class Commands < SlackRubyBot::Commands::Base
 
   command 'detailed' do |client, data, _match|
     city = data.text =~ /@/ ? data.text.split(' ', 3)[-1] : data.text.split(' ', 2)[-1]
-    weather = client.find_weather(city)
-    weather_text = if weather
-                     "Detailed Report for #{weather[:name]}" \
-                       "\nLongitude: #{weather[:lon]}, Latitude: #{weather[:lat]}" \
-                       "\nThe temperature is #{weather[:temp]}C with #{weather[:desc]}" \
-                       "\nHumidity: #{weather[:humidity]}%, Wind speed: #{weather[:speed]}"
+    client.find_weather(city)
+    weather_text = if client.weather
+                     "Detailed Report for #{client.weather[:name]}" \
+                       "\nLongitude: #{client.weather[:lon]}, Latitude: #{client.weather[:lat]}" \
+                       "\nThe temperature is #{client.weather[:temp]}C with #{client.weather[:desc]}" \
+                       "\nHumidity: #{client.weather[:humidity]}%, Wind speed: #{client.weather[:speed]}"
                    else
                      "Sorry I could't find \"#{city}\""
                    end
