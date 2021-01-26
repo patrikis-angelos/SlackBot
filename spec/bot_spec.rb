@@ -5,6 +5,8 @@ require 'slack-ruby-bot'
 Dotenv.load
 
 require_relative '../lib/client'
+require_relative '../lib/commands'
+require_relative '../lib/bot'
 
 describe SlackRubyBot::Client do
   let(:client) { SlackRubyBot::Client.new }
@@ -22,12 +24,26 @@ describe SlackRubyBot::Client do
   end
   describe '#find_weather' do
     it 'returns the weather in hash for the specified city' do
-      weather = client.find_weather('Athens')
-      expect(weather.is_a?(Hash)).to eql(true)
+      client.find_weather('Athens')
+      expect(client.weather.is_a?(Hash)).to eql(true)
     end
     it 'returns false if the town does not exist' do
       weather = client.find_weather('Townton')
       expect(weather).to eql(false)
     end
+  end
+end
+
+describe Commands do
+  let(:commands) { Commands.new }
+  it 'creates the commands that the bot can hear in real time' do
+    expect(commands.is_a?(SlackRubyBot::Commands::Base)).to eql(true)
+  end
+end
+
+describe WeatherBot do
+  let(:bot) { WeatherBot.new }
+  it 'creates a Slack Ruby bot instance' do
+    expect(bot.is_a?(SlackRubyBot::Bot)).to eql(true)
   end
 end
