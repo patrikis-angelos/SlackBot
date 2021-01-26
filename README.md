@@ -4,7 +4,7 @@
 
 A weather bot app for slack that report the weather in real time for any city.
 
-![Screenshot of e-Shop](./screenshot/weatherbot.png)
+![App Screenshot](./screenshot/weatherbot.png)
 
 ## Built With
 
@@ -16,8 +16,9 @@ To test the bot in your local environment you will have to follow the next steps
 
 - You must have a slack account
 - Make a new workspace
-- Go to slack app directory and into Custom Integrations to make a Bot user for your workspace
-  (You will take your API token from there)
+- Go to slack app directory and into Custom Integrations to make a Bot user for your workspace 
+  or use this link https://slack.com/services/new/bot
+  (The app works with classic bots only so make sure you create the bot from here)
 - Add the bot to a channel
 - The bot also uses the OpenWeatherMap API. To take a token for that, simply go to https://openweathermap.org/api
 and subscribe for the Current Weather Data, make an account and take your token (note that the token might take a few minutes to activate)
