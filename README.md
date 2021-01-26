@@ -59,7 +59,10 @@ Give a ⭐️ if you like this project!
 
 ## Acknowledgments
 
-- Hat tip to Microverse for their `README` template.
+- To Microverse for their `README` template.
+- To Slack for their awesome documentation
+- To OpenWeatherMap.org for their API
+- To dblock for his slack-ruby-bot gem
 
 ## 📝 License
 
