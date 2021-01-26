@@ -35,6 +35,7 @@ describe SlackRubyBot::Client do
 end
 
 describe Commands do
+  let(:client) { SlackRubyBot::Client.new }
   let(:commands) { Commands.new }
   it 'creates the commands that the bot can hear in real time' do
     expect(commands.is_a?(SlackRubyBot::Commands::Base)).to eql(true)
