@@ -8,7 +8,9 @@ class Commands < SlackRubyBot::Commands::Base
     city = data.text =~ /@/ ? data.text.split(' ', 3)[-1] : data.text.split(' ', 2)[-1]
     client.find_weather(city)
     weather_text = if client.weather
-                     "the temperature in #{client.weather[:name]} is #{client.weather[:temp]} C with #{client.weather[:desc]}"
+                     "the temperature in #{client.weather[:name]} "\
+                     "is #{client.weather[:temp]}C " \
+                     "with #{client.weather[:desc]}"
                    else
                      "Sorry I could't find \"#{city}\""
                    end
