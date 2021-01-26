@@ -25,6 +25,8 @@ module SlackRubyBot
       end
     end
 
+    private
+    
     def send_query(action, params)
       action.query = URI.encode_www_form(params)
       Net::HTTP.get_response(action)
