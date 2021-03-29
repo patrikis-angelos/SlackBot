@@ -2,7 +2,7 @@
 
 # SlackBot
 
-A weather bot app for slack that report the weather in real time for any city.
+A weather bot app for slack that reports the weather in real-time for any city.
 
 ![App Screenshot](./screenshot/weatherbot.png)
 
@@ -16,7 +16,7 @@ To test the bot in your local environment you will have to follow the next steps
 
 - You must have a slack account
 - Make a new workspace
-- Go to slack app directory and into Custom Integrations to make a Bot user for your workspace 
+- Go to the Slack app directory and into Custom Integrations to make a Bot user for your workspace 
   or use this link https://slack.com/services/new/bot
   (The app works with classic bots only so make sure you create the bot from here)
 - Add the bot to a channel
@@ -24,7 +24,7 @@ To test the bot in your local environment you will have to follow the next steps
 and subscribe for the Current Weather Data, make an account and take your token (note that the token might take a few minutes to activate)
 - `git clone git@github.com:patrick-angelos/SlackBot.git`
 - `cd SlackBot`
-- Create a .env file on the root directory where you will store your tokens like so
+- Create a .env file on the root directory where you will store your tokens, like so
 - SLACK_API_TOKEN=xoxb-...
 - WEATHER_TOKEN=1234...
 - run `bundle install`
@@ -39,7 +39,7 @@ To Bot accepts the following commands
 - weather "city": reports the weather in the specified city
 - detailed "city": for a more detailed weather report in the specified city
 
-Remember that the bot will reply only when taged.
+Remember that the bot will reply only when tagged.
 For example `@WeatherBot weather Athens` will give you a weather report for Athens
 
 ## Author
